@@ -353,7 +353,7 @@
                     this.resetForm();
                     this.dialogFormVisible4Edit = true;
                     this.activeName = 'first';
-                    //2、发送ajax请求通过id获取当前检查组
+                    /*//2、发送ajax请求通过id获取当前检查组
                     axios.get("/checkGroup/findCheckGroupById.do?id="+row.id).then((res)=>{
                         this.formData = res.data.data;
                     });
@@ -365,7 +365,23 @@
                     //4、根据checkGroupId获取所有检查项
                     axios.get("/checkGroup/findCheckitemIdsByCheckGroupId.do?id="+row.id).then((res)=>{
                         this.checkitemIds = res.data.data;
-                    });
+                    });*/
+                    function findCheckGroupById() {
+                        return axios.get("/checkGroup/findCheckGroupById.do?id="+row.id);
+                    }
+
+                    function findAll() {
+                        return axios.get("/checkItem/findAll.do");
+                    }
+                    function findCheckitemIdsByCheckGroupId() {
+                        return axios.get("/checkGroup/findCheckitemIdsByCheckGroupId.do?id="+row.id);
+                    }
+                    axios.all([findCheckGroupById(), findAll(),findCheckitemIdsByCheckGroupId()])
+                        .then(axios.spread(function (res1, res2,res3) {
+                            this.vue.formData = res1.data.data;
+                            this.vue.tableData = res2.data.data;
+                            this.vue.checkitemIds = res3.data.data;
+                        }));
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
