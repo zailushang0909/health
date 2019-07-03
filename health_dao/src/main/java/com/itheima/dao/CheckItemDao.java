@@ -17,4 +17,6 @@ public interface CheckItemDao {
     void deleteById(@Param("id") Integer id);
 
     List<CheckItem> findAll();
+
+    List<Integer> findCheckItemAssociation(@Param("id")Integer id);
 }

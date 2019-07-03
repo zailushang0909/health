@@ -9,7 +9,7 @@ import java.util.List;
 public interface CheckGroupDao {
     void add(CheckGroup checkGroup);
 
-    void addCheckGroupAssociation(@Param("checkGroupId") Integer checkGroupId, @Param("checkitemId") Integer checkitemId);
+    void addCheckGroupAssociation(@Param("checkGroupId") Integer checkGroupId, @Param("checkitemIds") Integer[] checkitemIds);
 
     Page<CheckGroup> findPage(@Param("queryString") String queryString);
 

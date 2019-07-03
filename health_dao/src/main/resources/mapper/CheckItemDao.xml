@@ -50,4 +50,8 @@
     <select id="findAll" resultType="com.itheima.pojo.CheckItem">
         select * from t_checkitem
     </select>
+    <select id="findCheckItemAssociation" resultType="java.lang.Integer">
+        select checkgroup_id from t_checkgroup_checkitem where checkitem_id = #{id}
+    </select>
+
 </mapper>

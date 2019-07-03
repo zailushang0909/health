@@ -25,10 +25,10 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         checkGroupDao.add(checkGroup);
         Integer checkGroupId = checkGroup.getId();
         //2、遍历将checkitemIds插入到t_checkgroup_checkitem
-       setCheckGroupAssociation(checkGroup.getId(),checkitemIds);
+        checkGroupDao.addCheckGroupAssociation(checkGroup.getId(),checkitemIds);
     }
 
-    public void setCheckGroupAssociation(Integer id ,Integer[] checkitemIds) {
+    /*public void setCheckGroupAssociation(Integer id ,Integer[] checkitemIds) {
         //2、遍历将checkitemIds插入到t_checkgroup_checkitem
         if(checkitemIds!=null&&checkitemIds.length>0){
             for (Integer checkitemId : checkitemIds) {
@@ -36,7 +36,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
             }
         }
 
-    }
+    }*/
 
     @Override
     public PageResult findPage(Integer currentPage, Integer pageSize, String queryString) {
@@ -59,7 +59,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
     public void updateCheckGroup(CheckGroup checkGroup, Integer[] checkitemIds) {
         checkGroupDao.updateCheckGroup(checkGroup);
         checkGroupDao.deleteCheckGroupAssociation(checkGroup.getId());
-        setCheckGroupAssociation(checkGroup.getId(),checkitemIds);
+        checkGroupDao.addCheckGroupAssociation(checkGroup.getId(),checkitemIds);
     }
 
     @Override

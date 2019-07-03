@@ -7,8 +7,11 @@
     <insert id="add" parameterType="com.itheima.pojo.CheckGroup" useGeneratedKeys="true" keyProperty="id">
         insert into t_checkgroup values (null,#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
     </insert>
-    <insert id="addCheckGroupAssociation">
-        insert into t_checkgroup_checkitem values (#{checkGroupId},#{checkitemId})
+    <insert id="addCheckGroupAssociation" parameterType="hashmap">
+        insert into t_checkgroup_checkitem (checkgroup_id, checkitem_id) values
+        <foreach collection="checkitemIds" item="checkitemId" separator=",">
+            (#{checkGroupId},#{checkitemId})
+        </foreach>
     </insert>
     <update id="updateCheckGroup">
         update t_checkgroup

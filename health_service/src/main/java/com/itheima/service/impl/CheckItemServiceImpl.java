@@ -44,6 +44,10 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     @Override
     public void deleteById(Integer id) {
+        List<Integer> checkGroupIds= checkItemDao.findCheckItemAssociation(id);
+        if (checkGroupIds!=null && !checkGroupIds.isEmpty()) {
+            throw new RuntimeException("当前检查项有检查组引用不能删除！");
+        }
         checkItemDao.deleteById(id);
     }
 
