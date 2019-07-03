@@ -15,4 +15,6 @@ public interface CheckItemDao {
     void updateById(CheckItem checkItem);
 
     void deleteById(@Param("id") Integer id);
+
+    List<CheckItem> findAll();
 }

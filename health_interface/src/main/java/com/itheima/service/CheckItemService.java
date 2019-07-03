@@ -4,6 +4,8 @@ import com.itheima.entity.PageResult;
 import com.itheima.entity.Result;
 import com.itheima.pojo.CheckItem;
 
+import java.util.List;
+
 public interface CheckItemService {
     void add(CheckItem checkItem);
 
@@ -14,4 +16,7 @@ public interface CheckItemService {
     void updateById(CheckItem checkItem);
 
     void deleteById(Integer id);
+
+    List<CheckItem> findAll();
+
 }

@@ -47,4 +47,7 @@
     <select id="findById" resultType="com.itheima.pojo.CheckItem">
         select * from t_checkitem where id = #{id}
     </select>
+    <select id="findAll" resultType="com.itheima.pojo.CheckItem">
+        select * from t_checkitem
+    </select>
 </mapper>

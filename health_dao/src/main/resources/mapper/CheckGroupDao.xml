@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.CheckGroupDao">
+
+    <insert id="add" parameterType="com.itheima.pojo.CheckGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into t_checkgroup values (null,#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+    <insert id="addCheckGroupAssociation">
+        insert into t_checkgroup_checkitem values (#{checkGroupId},#{checkitemId})
+    </insert>
+    <update id="updateCheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="code!=null">
+                code = #{code}
+            </if>
+            <if test="name!=null">
+                ,name=#{name}
+            </if>
+            <if test="helpCode!=null">
+                ,helpCode=#{helpCode}
+            </if>
+            <if test="sex!=null">
+                , sex=#{sex}
+            </if>
+            <if test="remark!=null">
+                , remark=#{remark}
+            </if>
+            <if test="attention!=null">
+                , attention=#{remark}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteCheckGroupAssociation">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+    <delete id="deleteCheckGroupById">
+        delete from t_checkgroup where id =#{id}
+    </delete>
+    <select id="findPage" resultType="com.itheima.pojo.CheckGroup">
+        select * from t_checkgroup
+        <if test="queryString != null and queryString.length>0 ">
+            where code=#{queryString} or name=#{queryString} or helpCode=#{queryString}
+        </if>
+    </select>
+    <select id="findCheckGroupById" resultType="com.itheima.pojo.CheckGroup">
+        select * from t_checkgroup where id=#{id}
+    </select>
+    <select id="findCheckitemIdsByCheckGroupId" resultType="java.lang.Integer">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </select>
+</mapper>
