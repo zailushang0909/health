@@ -92,15 +92,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form  ref="addForm" :model="formData" label-position="right" label-width="100px" :rules="rules" >
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -176,15 +176,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form :model="formData" label-position="right" label-width="100px" ref="editForm" :rules="rules">
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -274,7 +274,11 @@
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
                 checkitemIds:[],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
-                dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
+                dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
+                rules: {//校验规则
+                    code: [{ required: true, message: '项目编码为必填项', trigger: 'blur' }],
+                    name: [{ required: true, message: '项目名称为必填项', trigger: 'blur' }]
+                }
             },
             created() {
                 this.findPage();
@@ -282,30 +286,54 @@
             methods: {
                 //编辑
                 handleEdit() {
-                    this.dialogFormVisible4Edit = false;
-                    axios.post("/checkGroup/updateCheckGroup.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
-                        this.$message({
-                            message: res.data.message,
-                            type:res.data.flag ? "success":"error"
-                        })
-                    }).finally(()=>{
-                        this.findPage();
+
+                    this.$refs['editForm'].validate((flag)=>{
+                        if(flag){
+                            //如果表单验证成功发送请求
+                            this.dialogFormVisible4Edit = false;
+                            axios.post("/checkGroup/updateCheckGroup.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
+                                this.$message({
+                                    message: res.data.message,
+                                    type:res.data.flag ? "success":"error"
+                                })
+                            }).finally(()=>{
+                                this.findPage();
+                            })
+                        }else {
+                            //如果失败弹窗提示请按规则提示重新填写后提交
+                            this.$message.error("请按规则提示重新填写后提交");
+                        }
                     })
+
                 },
                 //添加
                 handleAdd () {
-                    //1、发送ajax请求保存检查组
-                    axios.post("/checkGroup/add.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
-                        //1.1如果响应结果flag为true弹窗提示响应message
-                        //1.2如果响应结果flagweifalse弹窗提示message
-                        this.$message({
-                            message: res.data.message,
-                            type:res.data.flag ? "success":"error"
-                        })
-                        this.findPage();
+                    //如果验证成功发送请求
+                    this.$refs['addForm'].validate((flag)=>{
+                        if (flag) {
+                            console.log(1)
+                            //1、发送ajax请求保存检查组
+                            axios.post("/checkGroup/add.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
+                                //1.1如果响应结果flag为true弹窗提示响应message
+                                //1.2如果响应结果flagweifalse弹窗提示message
+                                this.$message({
+                                    message: res.data.message,
+                                    type:res.data.flag ? "success":"error"
+                                })
+                                this.findPage();
+                            })
+                            //2、隐藏会话框
+                            this.dialogFormVisible = false;
+                        }else {
+                            //如果验证失败弹窗提示请按提示规则填写表单后提交
+                            this.$message({
+                                message:"请按提示规则填写表单后提交",
+                                type:"error"
+                            })
+                        }
                     })
-                    //2、隐藏会话框
-                    this.dialogFormVisible = false;
+
+
                 },
                 //条件查询
                 findPageByCondition() {
