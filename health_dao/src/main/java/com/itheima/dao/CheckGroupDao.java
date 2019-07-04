@@ -22,4 +22,7 @@ public interface CheckGroupDao {
     void deleteCheckGroupAssociation(@Param("id") Integer id);
 
     void deleteCheckGroupById(@Param("id") Integer id);
+
+    List<CheckGroup> findAll();
+
 }

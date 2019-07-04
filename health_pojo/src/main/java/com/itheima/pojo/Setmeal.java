@@ -18,6 +18,15 @@ public class Setmeal implements Serializable {
     private String attention;
     private String img;//套餐对应图片存储路径
     private List<CheckGroup> checkGroups;//体检套餐对应的检查组，多对多关系
+    private List<Integer> checkGroupIds;
+
+    public List<Integer> getCheckGroupIds() {
+        return checkGroupIds;
+    }
+
+    public void setCheckGroupIds(List<Integer> checkGroupIds) {
+        this.checkGroupIds = checkGroupIds;
+    }
 
     public List<CheckGroup> getCheckGroups() {
         return checkGroups;

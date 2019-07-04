@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.SetmealDao">
+
+    <insert id="add" parameterType="com.itheima.pojo.Setmeal" useGeneratedKeys="true" keyProperty="id">
+        insert into t_setmeal values (null,#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+    <insert id="addSetMealAssociation">
+        insert into t_setmeal_checkgroup (setmeal_id, checkgroup_id) values
+        <foreach collection="checkGroupIds" separator="," item="checkGroupId">
+            (#{id},#{checkGroupId})
+        </foreach>
+    </insert>
+    <select id="findPage" resultType="com.itheima.pojo.Setmeal">
+        select * from t_setmeal
+        <if test="queryString!=null and queryString.trim().length>0">
+            where name=#{queryString} or code=#{queryString} or helpCode=#{queryString}
+        </if>
+    </select>
+</mapper>

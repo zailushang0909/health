@@ -39,4 +39,5 @@
         <property name="maxInMemorySize" value="4096"></property>
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
+    <import resource="spring-redis.xml"/>
 </beans>
