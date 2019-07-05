@@ -70,16 +70,16 @@ public class SetmealServiceImpl implements SetmealService {
             //1.1不一致则删除redis中的数据
                 jedisPool.getResource().srem(RedisConstant.SETMEAL_PIC_DB_RESOURCES, imgName);
         }
-        //3、直接存到redis
-            jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, imgName);
-        //4、更新数据库中数据
+        //2、更新数据库中数据
         setmealDao.update(setmeal);
-        //5、删除数据库中的关系
+        //3、删除数据库中的关系
         setmealDao.deleteSetmealAssociation(setmeal.getId());
-        //6、新建关系表中的关系
+        //4、新建关系表中的关系
         if (setmeal.getCheckGroupIds()!=null&&setmeal.getCheckGroupIds().size()>0) {
             setmealDao.addSetMealAssociation(setmeal.getId(),setmeal.getCheckGroupIds());
         }
+        //5、直接存到redis
+        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, setmeal.getImg());
     }
 
 }
