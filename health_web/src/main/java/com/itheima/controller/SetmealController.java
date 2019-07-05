@@ -65,4 +65,46 @@ public class SetmealController {
 
         }
     }
+    @RequestMapping("/delete")
+    public Result delete(@RequestParam("id") Integer id, @RequestParam("img")String img) {
+        try {
+            setmealService.delete(id,img);
+            return new Result(true, MessageConstant.DELETESETMEAL_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
+        }
+    }
+
+    @RequestMapping("/findSetmealById")
+    public Result findSetmealById(@RequestParam("id")Integer id) {
+        try {
+            Setmeal setmeal = setmealService.findSetmealById(id);
+            return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS, setmeal);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_SETMEAL_FAIL);
+
+        }
+    }
+    @RequestMapping("/findCheckgroupIdsBySetmealId")
+    public Result findCheckgroupIdsBySetmealId(@RequestParam("id") Integer id) {
+        try {
+            List<Integer> checkGroupIds = setmealService.findCheckgroupIdsBySetmealId(id);
+            return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS,checkGroupIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_SETMEAL_FAIL);
+        }
+    }
+    @RequestMapping("/updata")
+    public  Result updata(@RequestBody Setmeal setmeal) {
+        try {
+            setmealService.update(setmeal);
+            return new Result(true, MessageConstant.EDIT_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.EDIT_SETMEAL_FAIL);
+        }
+    }
 }

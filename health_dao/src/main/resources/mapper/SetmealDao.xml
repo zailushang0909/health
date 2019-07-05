@@ -13,10 +13,28 @@
             (#{id},#{checkGroupId})
         </foreach>
     </insert>
+    <update id="update" parameterType="com.itheima.pojo.Setmeal">
+        update t_setmeal set name=#{name},code=#{code},helpCode=#{helpCode},sex=#{sex},age=#{age},price=#{price},remark=#{remark},attention=#{attention},img=#{img} where id =#{id}
+    </update>
+    <delete id="delete">
+        delete from t_setmeal where id = #{id}
+    </delete>
+    <delete id="deleteSetmealAssociation">
+        delete from t_setmeal_checkgroup where setmeal_id=#{id}
+    </delete>
     <select id="findPage" resultType="com.itheima.pojo.Setmeal">
         select * from t_setmeal
         <if test="queryString!=null and queryString.trim().length>0">
             where name=#{queryString} or code=#{queryString} or helpCode=#{queryString}
         </if>
+    </select>
+    <select id="findSetmealById" resultType="com.itheima.pojo.Setmeal">
+        select * from t_setmeal where id = #{id}
+    </select>
+    <select id="findCheckgroupIdsBySetmealId" resultType="java.lang.Integer">
+        select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id}
+    </select>
+    <select id="getImgNameBySetmealId" resultType="java.lang.String">
+        select img from t_setmeal where id=#{id}
     </select>
 </mapper>

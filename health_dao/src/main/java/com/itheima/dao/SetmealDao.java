@@ -12,4 +12,16 @@ public interface SetmealDao {
     void addSetMealAssociation(@Param("id") Integer id, @Param("checkGroupIds") List<Integer> checkGroupIds);
 
     Page<Setmeal> findPage(@Param("queryString") String queryString);
+
+    void delete(@Param("id")Integer id);
+
+    void deleteSetmealAssociation(@Param("id")Integer id);
+
+    Setmeal findSetmealById(@Param("id")Integer id);
+
+    List<Integer> findCheckgroupIdsBySetmealId(@Param("id")Integer id);
+
+    String getImgNameBySetmealId(@Param("id")Integer id);
+
+    void update(Setmeal setmeal);
 }
