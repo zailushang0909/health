@@ -10,7 +10,7 @@
     <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
     <!--配置暴露服务的端口以及协议-->
     <dubbo:protocol port="20081" name="dubbo" ></dubbo:protocol>
-    <!--dubbo注解扫描装配bean 已经基于接口对外暴露服务-->
+    <!--dubbo注解扫描装配bean 并且基于接口对外暴露服务-->
     <dubbo:annotation package="com.itheima.service"></dubbo:annotation>
 
 </beans>

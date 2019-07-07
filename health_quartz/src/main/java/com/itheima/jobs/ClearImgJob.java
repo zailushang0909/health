@@ -3,6 +3,7 @@ package com.itheima.jobs;
 
 import com.itheima.entity.RedisConstant;
 import com.itheima.utils.QiniuUtils;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
