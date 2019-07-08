@@ -15,6 +15,15 @@ public class CheckItem implements Serializable {
     private String type;//检查项类型，分为检查和检验两种类型
     private String remark;//项目说明
     private String attention;//注意事项
+    private Integer checkgroupId;
+
+    public Integer getCheckgroupId() {
+        return checkgroupId;
+    }
+
+    public void setCheckgroupId(Integer checkgroupId) {
+        this.checkgroupId = checkgroupId;
+    }
 
     public Integer getId() {
         return id;

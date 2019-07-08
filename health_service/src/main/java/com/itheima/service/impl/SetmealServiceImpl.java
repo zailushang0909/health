@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service(interfaceClass = SetmealService.class)
@@ -104,6 +106,24 @@ public class SetmealServiceImpl implements SetmealService {
             for (CheckGroup checkGroup : checkGroups) {
                 List<CheckItem> checkitems = checkGroupDao.findCheckitemsByCheckGroupId(checkGroup.getId());
                 checkGroup.setCheckItems(checkitems);
+            }
+        }
+        setmeal.setCheckGroups(checkGroups);
+        return setmeal;
+    }
+
+    @Override
+    public Setmeal findByIdBatch(Integer id) {
+        //1、根据setmeal id查询setmeal
+        Setmeal setmeal = setmealDao.findSetmealById(id);
+        //2、根据setmeal id查询检查组
+        List<CheckGroup> checkGroups = checkGroupDao.findCheckGroupsBySetmealId(id);
+        //3、根据setmeal id查询checkitems项
+        if (CollectionUtil.isNotEmpty(checkGroups)) {
+            List<CheckItem> checkItems = setmealDao.findCheckItemsBySetmealId(id);
+            Map<Integer, List<CheckItem>> collect = checkItems.stream().collect(Collectors.groupingBy(CheckItem::getCheckgroupId));
+            for (CheckGroup checkGroup : checkGroups) {
+                checkGroup.setCheckItems(collect.get(checkGroup.getId()));
             }
         }
         setmeal.setCheckGroups(checkGroups);
