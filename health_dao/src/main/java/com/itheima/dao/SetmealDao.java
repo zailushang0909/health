@@ -24,4 +24,7 @@ public interface SetmealDao {
     String getImgNameBySetmealId(@Param("id")Integer id);
 
     void update(Setmeal setmeal);
+
+    List<Setmeal> getSetmeal();
+
 }

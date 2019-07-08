@@ -37,4 +37,7 @@
     <select id="getImgNameBySetmealId" resultType="java.lang.String">
         select img from t_setmeal where id=#{id}
     </select>
+    <select id="getSetmeal" resultType="com.itheima.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
 </mapper>

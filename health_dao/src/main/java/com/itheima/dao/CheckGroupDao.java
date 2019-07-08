@@ -2,6 +2,7 @@ package com.itheima.dao;
 
 import com.github.pagehelper.Page;
 import com.itheima.pojo.CheckGroup;
+import com.itheima.pojo.CheckItem;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface CheckGroupDao {
 
     List<CheckGroup> findAll();
 
+    List<CheckGroup> findCheckGroupsBySetmealId(Integer id);
+
+    List<CheckItem> findCheckitemsByCheckGroupId(Integer id);
 }

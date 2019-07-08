@@ -15,6 +15,7 @@
         <module>health_service</module>
         <module>health_web</module>
         <module>health_quartz</module>
+        <module>health_mobileweb</module>
     </modules>
     <packaging>pom</packaging>
 

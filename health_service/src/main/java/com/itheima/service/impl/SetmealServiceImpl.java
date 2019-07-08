@@ -1,11 +1,15 @@
 package com.itheima.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.itheima.dao.CheckGroupDao;
 import com.itheima.dao.SetmealDao;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.RedisConstant;
+import com.itheima.pojo.CheckGroup;
+import com.itheima.pojo.CheckItem;
 import com.itheima.pojo.Setmeal;
 import com.itheima.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,8 @@ public class SetmealServiceImpl implements SetmealService {
     private SetmealDao setmealDao;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private CheckGroupDao checkGroupDao;
 
     @Override
     public void add(Setmeal setmeal) {
@@ -80,6 +86,28 @@ public class SetmealServiceImpl implements SetmealService {
         }
         //5、直接存到redis
         jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, setmeal.getImg());
+    }
+
+    @Override
+    public List<Setmeal> getSetmeal() {
+        return setmealDao.getSetmeal();
+    }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        //1、根据setmeal id查询setmeal
+        Setmeal setmeal = setmealDao.findSetmealById(id);
+        //2、根据setmeal id查询检查组
+        List<CheckGroup> checkGroups = checkGroupDao.findCheckGroupsBySetmealId(id);
+        //3、遍历检查组根据检查组id查询检查项
+        if (CollectionUtil.isNotEmpty(checkGroups)) {
+            for (CheckGroup checkGroup : checkGroups) {
+                List<CheckItem> checkitems = checkGroupDao.findCheckitemsByCheckGroupId(checkGroup.getId());
+                checkGroup.setCheckItems(checkitems);
+            }
+        }
+        setmeal.setCheckGroups(checkGroups);
+        return setmeal;
     }
 
 }
