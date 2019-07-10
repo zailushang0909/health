@@ -37,4 +37,15 @@ public class MSetmealController {
             return new Result(false, MessageConstant.QUERY_SETMEAL_FAIL);
         }
     }
+
+    @RequestMapping("/findSetmealById")
+    public Result findSetmealById(Integer id) {
+        try {
+            Setmeal setmeal = setmealService.findSetmealById(id);
+            return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS, setmeal);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS);
+        }
+    }
 }

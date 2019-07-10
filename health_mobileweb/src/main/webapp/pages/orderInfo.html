@@ -33,7 +33,7 @@
             <div class="contentBox">
                 <div class="card">
                     <div class="">
-                        <img :src="'http://pqjroc654.bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
+                        <img :src="'http://pu22lqmk8.bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
                     </div>
                     <div class="project-text">
                         <h4 class="tit">{{setmeal.name}}</h4>
@@ -90,6 +90,7 @@
                             <i class="icon-date" class="picktime"></i>
                             <input v-model="orderInfo.orderDate" type="text" class="picktime" readonly>
                         </div>
+                        <input type="hidden" :formId="orderInfo.formId">
                     </form>
                     <div class="box-button">
                         <button @click="submitOrder()" type="button" class="btn order-btn">提交预约</button>
@@ -104,7 +105,8 @@
                     setmeal:{},//套餐信息
                     orderInfo:{
                         setmealId:id,
-                        sex:'1'
+                        sex:'1',
+                        formId:''
                     }//预约信息
                 },
                 methods:{
@@ -136,7 +138,8 @@
                         axios.post("/order/submit.do",this.orderInfo).then((response) => {
                             if(response.data.flag){
                                 //预约成功，跳转到预约成功页面
-                                window.location.href="orderSuccess.html?orderId=" + response.data.data.id;
+                                this.$message.success(response.data.message)
+                                // window.location.href="orderSuccess.html?orderId=" + response.data.data.id;
                             }else{
                                 //预约失败，提示预约失败信息
                                 this.$message.error(response.data.message);
@@ -148,6 +151,9 @@
                     axios.post("/setmeal/findById.do?id=" + id).then((response) => {
                         this.setmeal = response.data.data;
                     });
+                    axios.get("/order/getFormId.do").then((res)=>{
+                        this.orderInfo.formId = res.data.data;
+                    })
                 }
             });
         </script>

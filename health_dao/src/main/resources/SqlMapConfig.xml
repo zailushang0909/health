@@ -6,9 +6,9 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
-    <plugins>
+    <!--<plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor">
             <property name="helperDialect" value="mysql"/>
         </plugin>
-    </plugins>
+    </plugins>-->
 </configuration>

@@ -41,7 +41,7 @@
         select * from t_setmeal
     </select>
     <select id="findCheckItemsBySetmealId" resultType="com.itheima.pojo.CheckItem">
-        select tci.*,tcc.checkgroup_id checkgroupId  from t_checkitem tci , t_checkgroup_checkitem tcc where tci.id=tcc.checkitem_id and tcc.checkgroup_id in
+        select tci.*,tcc.checkgroup_id  from t_checkitem tci , t_checkgroup_checkitem tcc where tci.id=tcc.checkitem_id and tcc.checkgroup_id in
 (select checkgroup_id from t_setmeal_checkgroup where setmeal_id=#{id})
     </select>
 </mapper>

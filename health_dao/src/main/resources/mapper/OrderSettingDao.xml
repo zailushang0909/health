@@ -9,10 +9,16 @@
     <update id="update" parameterType="hashmap">
         update t_ordersetting set number=#{number} where orderDate=#{orderDate}
     </update>
+    <update id="updateReservations"  parameterType="com.itheima.pojo.OrderSetting" >
+        update t_ordersetting set reservations =#{reservations} ,version=version+1 where orderDate=#{orderDate} and version=#{version}
+    </update>
     <select id="findOrderSettingByorderDate" resultType="java.lang.Integer">
         select count(*) from t_ordersetting where orderDate=#{orderDate}
     </select>
     <select id="findOrderSettingByCurrentMonth" resultType="com.itheima.pojo.OrderSetting">
         select * from t_ordersetting where orderDate between #{startDate} and #{endDate}
+    </select>
+    <select id="findOrderSettingByDate" resultType="com.itheima.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate=#{orderDate}
     </select>
 </mapper>

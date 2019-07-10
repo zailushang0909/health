@@ -14,4 +14,8 @@ public interface OrderSettingDao {
     void update(@Param("orderDate")Date orderDate, @Param("number")int number);
 
     List<OrderSetting> findOrderSettingByCurrentMonth(@Param("startDate") String startDate, @Param("endDate")String endDate);
+
+    OrderSetting findOrderSettingByDate(@Param("orderDate")Date orderDate);
+
+    int updateReservations(OrderSetting orderDate);
 }
