@@ -1,6 +1,7 @@
 package com.itheima.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 封装返回结果
@@ -19,6 +20,14 @@ public class Result implements Serializable{
         this.flag = flag;
         this.message = message;
         this.data = data;
+    }
+
+    public static Result error(String message) {
+        return new Result(false, message);
+    }
+
+    public static Result success(String message, Object data) {
+        return new Result(true, message, data);
     }
 
     public boolean isFlag() {

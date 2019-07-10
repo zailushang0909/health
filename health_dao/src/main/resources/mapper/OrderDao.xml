@@ -4,11 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itheima.dao.OrderDao">
 
-    <insert id="addOrder" parameterType="com.itheima.pojo.Order">
+    <insert id="addOrder" parameterType="com.itheima.pojo.Order" useGeneratedKeys="true" keyProperty="id">
         insert into t_order values (null,#{memberId}, #{orderDate}, #{orderType}, #{orderStatus}, #{setmealId})
     </insert>
 
     <select id="findOrderByMemberIdAndSetmealId" resultType="com.itheima.pojo.Order">
         select * from t_order where member_id = #{memberId} and setmeal_id = #{setmealId}
+    </select>
+    <select id="findById" resultType="java.util.Map">
+        <!--<p>体检人：{{orderInfo.member}}</p>
+        <p>体检套餐：{{orderInfo.setmeal}}</p>
+        <p>体检日期：{{orderInfo.orderDate}}</p>
+        <p>预约类型：{{orderInfo.orderType}}</p>-->
+        select m.name member , s.name setmeal,o.orderDate ,o.orderType from t_order o , t_member m ,t_setmeal s where o.member_id = m.id and o.setmeal_id = s.id and o.id=#{id}
     </select>
 </mapper>

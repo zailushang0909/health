@@ -35,4 +35,18 @@ public class ValidateCodeController {
             return new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
         }
     }
+
+    @RequestMapping("/send4Login")
+    public Result send4Login(String telephone) {
+        try {
+            String loginValidateCode = ValidateCodeUtils.generateValidateCode4String(6);
+            jedisPool.getResource().setex(RedisConstant.LOGINVALIDATEKEY_PREFIX + telephone, 60 * 60, loginValidateCode);
+            JuHeUtils.sendLogin(telephone,loginValidateCode);
+            return new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
+        }
+    }
+
 }

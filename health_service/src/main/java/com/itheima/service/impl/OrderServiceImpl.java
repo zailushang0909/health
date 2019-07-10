@@ -13,6 +13,8 @@ import com.itheima.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 @Transactional
 @Service(interfaceClass = OrderService.class)
 public class OrderServiceImpl implements OrderService {
@@ -64,6 +66,11 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("版本不一致，添加数据失败");
         }
         //6、返回预约成功返回值
-        return new Result(true, "预约成功");
+        return new Result(true, "预约成功",order);
+    }
+
+    @Override
+    public Map findById(Integer id) {
+        return orderDao.findById(id);
     }
 }
